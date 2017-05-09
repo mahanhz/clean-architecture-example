@@ -1,0 +1,21 @@
+endpoints:
+  hypermedia:
+    enabled: true
+
+management:
+  context-path: /manage
+
+server:
+  port: 13001
+  session:
+    timeout: 600 # 10 minutes
+
+spring:
+  application:
+    name: clean-architecture-example
+  datasource:
+    platform: h2
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate.jdbc.time_zone: UTC

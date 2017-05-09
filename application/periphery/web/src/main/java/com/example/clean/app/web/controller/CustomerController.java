@@ -17,6 +17,7 @@ import static com.example.clean.app.web.controller.CommonLinks.homeLink;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(path = "/api/customers")
@@ -32,22 +33,22 @@ public class CustomerController {
         this.customerAdapter = notNull(customerAdapter);
     }
 
-    @GetMapping
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource<CustomersDTO>> customers() {
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customers());
 
-        final ControllerLinkBuilder createGroupLink = linkTo(CustomerController.class).slash(CREATE);
+        final ControllerLinkBuilder createLink = linkTo(CustomerController.class).slash(CREATE);
 
         final Resource<CustomersDTO> customersDto = new Resource<>(customerAdapter.customers());
         customersDto.add(selfLink.withSelfRel());
         customersDto.add(homeLink());
-        customersDto.add(createGroupLink.withRel("create"));
+        customersDto.add(createLink.withRel("create"));
 
         return ResponseEntity.ok(customersDto);
     }
 
-    @GetMapping(path = "{customerId}")
+    @GetMapping(path = "/{customerId}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource<CustomerDTO>> customer(@PathVariable final long customerId) {
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customer(customerId));
@@ -65,7 +66,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerDto);
     }
 
-    @PostMapping(path = CREATE)
+    @PostMapping(path = "/" + CREATE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> create(@RequestBody @Valid final CustomerDTO customerDto) {
 
         customerAdapter.create(customerDto);
@@ -73,7 +74,7 @@ public class CustomerController {
         return ResponseEntity.created(URI.create(customersLink().getHref())).build();
     }
 
-    @PutMapping(path = UPDATE)
+    @PutMapping(path = "/" + UPDATE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> update(@RequestBody @Valid final CustomerDTO customerDto) {
 
         customerAdapter.update(customerDto);
@@ -81,7 +82,7 @@ public class CustomerController {
         return ResponseEntity.created(URI.create(customersLink().getHref())).build();
     }
 
-    @DeleteMapping(path = "{customerId}")
+    @DeleteMapping(path = "/{customerId}")
     public ResponseEntity<?> delete(@PathVariable final long customerId) {
 
         customerAdapter.delete(customerId);

@@ -8,5 +8,5 @@ public interface CustomerRepository {
 
     List<Customer> customers();
 
-    Customer customer(Customer customer);
+    Customer customer(Customer.Id customerId);
 }

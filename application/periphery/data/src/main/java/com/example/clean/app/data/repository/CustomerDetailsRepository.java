@@ -30,8 +30,8 @@ public class CustomerDetailsRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer customer(final Customer customer) {
-        final CustomerEntity cust = customerJpaRepository.findOne(customer.getId().getId());
+    public Customer customer(final Customer.Id customerId) {
+        final CustomerEntity cust = customerJpaRepository.findOne(customerId.getId());
 
         return customer(cust);
     }

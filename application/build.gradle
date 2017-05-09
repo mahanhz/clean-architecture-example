@@ -1,0 +1,21 @@
+springBoot {
+    mainClass = 'com.example.clean.app.MainApplication'
+
+    buildInfo {
+        additionalProperties = [
+                'description': "${description}"
+        ]
+    }
+}
+
+// Make the System.properties available in the bootRun task.
+bootRun {
+    systemProperties = System.properties
+}
+
+jar {
+    // Do not include environment specific properties in the built jar
+    exclude 'application-*'
+    exclude 'bootstrap-*'
+    exclude '*.sql'
+}
