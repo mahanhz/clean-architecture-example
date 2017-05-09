@@ -8,5 +8,5 @@ public interface CustomerEditService {
 
     void update(Customer customer);
 
-    void delete(Customer customer);
+    void delete(Customer.Id customerId);
 }

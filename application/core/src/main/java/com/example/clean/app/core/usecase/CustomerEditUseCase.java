@@ -29,9 +29,9 @@ public class CustomerEditUseCase implements CustomerEditService {
     }
 
     @Override
-    public void delete(final Customer customer) {
-        notNull(customer);
+    public void delete(final Customer.Id customerId) {
+        notNull(customerId);
 
-        customerEditRepository.delete(customer);
+        customerEditRepository.delete(customerId);
     }
 }

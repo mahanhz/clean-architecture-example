@@ -7,6 +7,9 @@ import com.example.clean.app.data.jpa.entity.Name;
 import com.example.clean.app.data.jpa.repository.CustomerJpaRepository;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class CustomerDetailsRepository implements CustomerRepository {
@@ -18,9 +21,22 @@ public class CustomerDetailsRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer customer(final Customer.Id customerId) {
-        final CustomerEntity customer = customerJpaRepository.findOne(customerId.getId());
+    public List<Customer> customers() {
+        final List<CustomerEntity> customers = customerJpaRepository.findAll();
 
+        return customers.stream()
+                .map(this::customer)
+                .collect(toList());
+    }
+
+    @Override
+    public Customer customer(final Customer customer) {
+        final CustomerEntity cust = customerJpaRepository.findOne(customer.getId().getId());
+
+        return customer(cust);
+    }
+
+    private Customer customer(final CustomerEntity customer) {
         return Customer.of(id(customer), name(customer.getName()));
     }
 
