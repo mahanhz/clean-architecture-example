@@ -1,0 +1,184 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+		propDepsVersion = '0.0.8'
+	}
+	repositories {
+		mavenCentral()
+
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+		maven {
+			url 'http://repo.spring.io/plugins-release'
+		}
+	}
+	dependencies {
+		classpath ("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath ("io.spring.gradle:propdeps-plugin:${propDepsVersion}")
+	}
+}
+
+plugins {
+	id "io.spring.dependency-management" version "1.0.2.RELEASE"
+}
+
+configure(allprojects) {
+	apply plugin: 'java'
+
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	apply plugin: 'propdeps-idea'
+	apply plugin: 'propdeps-eclipse'
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	repositories {
+		mavenCentral()
+	}
+}
+
+configure(subprojects - project(":application:core") - project(":application:adapter")) {
+	apply plugin: 'io.spring.dependency-management'
+
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+		}
+	}
+}
+
+configure([project(':application')]) {
+	apply plugin: 'org.springframework.boot'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.5'
+}
+
+ext {
+	commonsLangVersion = '3.5'
+
+	logstashLogbackVersion = '4.8'
+	janinoVersion = '3.0.6'
+
+	jacksonVersion = '2.8.8'
+
+	immutablesVersion = '2.4.6'
+	nullableVersion = '3.0.2'
+
+	junitParamsVersion = '1.1.0'
+	junitVersion = '4.12'
+	assertJVersion = '3.6.2'
+	mockitoVersion = '2.7.22'
+}
+
+ext.app_tests = [
+		unit_test: [
+				"junit:junit:${junitVersion}",
+				"org.assertj:assertj-core:${assertJVersion}",
+				"org.mockito:mockito-core:${mockitoVersion}",
+				"pl.pragmatists:JUnitParams:${junitParamsVersion}"
+		],
+		spring_test: [
+				"org.springframework.boot:spring-boot-starter-test"
+		]
+]
+
+project("application") {
+	description = "Application"
+
+	dependencies {
+		compile project(':application:configuration')
+	}
+}
+
+project("application:adapter") {
+	description = "Application adapter"
+
+	dependencies {
+		compile project(':application:core')
+
+		compile ("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
+		compile ("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+
+		testCompile app_tests.unit_test
+	}
+}
+
+project("application:configuration") {
+	description = "Application configuration"
+
+	dependencies {
+		compile project(':application:core')
+		compile project(':application:periphery:data')
+		compile project(':application:periphery:web')
+
+		compile ("org.springframework.boot:spring-boot-starter-security")
+		compile ('org.springframework.boot:spring-boot-starter-actuator')
+		compile ('org.springframework.boot:spring-boot-actuator-docs')
+		compile ('org.springframework.boot:spring-boot-starter-aop')
+		compile ('org.springframework.retry:spring-retry')
+
+		compile ("com.h2database:h2")
+
+		compile ("net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}")
+		compile ("org.codehaus.janino:janino:${janinoVersion}")
+
+		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+
+		optional ("org.springframework.boot:spring-boot-devtools")
+
+		testCompile app_tests.unit_test
+		testCompile app_tests.spring_test
+	}
+}
+
+project("application:core") {
+	description = "Application core"
+
+	dependencies {
+		compile group: 'org.apache.commons', name: 'commons-lang3', version: "${commonsLangVersion}"
+		compile group: 'com.google.code.findbugs', name: 'jsr305', version: "${nullableVersion}"
+
+		provided group: 'org.immutables', name: 'value', version: "${immutablesVersion}"
+
+		testCompile app_tests.unit_test
+	}
+}
+
+project("application:periphery:data") {
+	description = "Application periphery data"
+
+	// Need to override version to be 5.2.3 or greater so that we can use "hibernate.jdbc.time_zone: UTC"
+	ext['hibernate.version'] = '5.2.9.Final'
+
+	dependencies {
+		compile project(':application:adapter')
+
+		compile("org.springframework.boot:spring-boot-starter-data-jpa")
+		compile("org.springframework.boot:spring-boot-starter-security")
+		compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
+
+		testCompile app_tests.unit_test
+		testCompile app_tests.spring_test
+	}
+}
+
+project("application:periphery:web") {
+	description = "Application periphery web"
+
+	dependencies {
+		compile project(':application:adapter')
+
+		compile("org.springframework.boot:spring-boot-starter-web")
+		compile("org.springframework.boot:spring-boot-starter-hateoas")
+		compile("org.springframework.data:spring-data-rest-hal-browser")
+		compile("org.springframework.boot:spring-boot-starter-aop")
+
+		testCompile app_tests.unit_test
+		testCompile app_tests.spring_test
+	}
+}
