@@ -56,7 +56,7 @@ public final class Customer {
             this.id = id;
         }
 
-        private static Id of(final long id) {
+        public static Id of(final long id) {
             return new Id(id);
         }
 
