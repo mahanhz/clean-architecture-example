@@ -11,8 +11,8 @@ That is why these two things need to be separated.
 | core > domain | Entities and value objects |
 | core > usecase | The use cases (or application services) |
 | core > boundary | The only way into and out of the core. Contains only interfaces. |
-| core > boundary > enter | Interfaces that the core > usecase implements |
-| core > boundary > exit | Interfaces used by the core > usecase. These are implemented in the periphery (e.g. repositories) |
+| core > boundary > enter | Interfaces that the core > usecase implements. These are used in the adapter (can also be used in the periphery). |
+| core > boundary > exit | Interfaces used by the core > usecase. These are implemented in the periphery (e.g. repositories). |
                     
 ## The how
 | Module     | Intent |
