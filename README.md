@@ -7,12 +7,10 @@ That is why these two things need to be separated.
 ## The what
 | Package     | Intent |
 | --------|---------|
-| core  | Should only need to look inside this package to know what the system does.
-          Has no dependencies to any framework (e.g. Spring, hibernate, play, drop wizard…) |
+| core  | Should only need to look inside this package to know what the system does. Has no dependencies to any framework (e.g. Spring, hibernate, play, drop wizard…) |
 | core > domain | Entities and value objects |
 | core > usecase | The use cases (or application services) |
-| core > boundary | The only way into and out of the core.
-                    Contains only interfaces. |
+| core > boundary | The only way into and out of the core. Contains only interfaces. |
 | core > boundary > enter | Interfaces that the core > usecase implements |
 | core > boundary > exit | Interfaces used by the core > usecase |
                     
