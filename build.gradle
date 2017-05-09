@@ -60,37 +60,19 @@ task wrapper(type: Wrapper) {
 ext {
 	commonsLangVersion = '3.5'
 
-	logstashLogbackVersion = '4.8'
-	janinoVersion = '3.0.6'
-
 	jacksonVersion = '2.8.8'
 
 	immutablesVersion = '2.4.6'
 	nullableVersion = '3.0.2'
-
-	junitParamsVersion = '1.1.0'
-	junitVersion = '4.12'
-	assertJVersion = '3.6.2'
-	mockitoVersion = '2.7.22'
 }
-
-ext.app_tests = [
-		unit_test: [
-				"junit:junit:${junitVersion}",
-				"org.assertj:assertj-core:${assertJVersion}",
-				"org.mockito:mockito-core:${mockitoVersion}",
-				"pl.pragmatists:JUnitParams:${junitParamsVersion}"
-		],
-		spring_test: [
-				"org.springframework.boot:spring-boot-starter-test"
-		]
-]
 
 project("application") {
 	description = "Application"
 
 	dependencies {
 		compile project(':application:configuration')
+
+		optional ("org.springframework.boot:spring-boot-devtools")
 	}
 }
 
@@ -103,8 +85,6 @@ project("application:adapter") {
 		compile ("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
 		compile ("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
 		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
-
-		testCompile app_tests.unit_test
 	}
 }
 
@@ -123,15 +103,7 @@ project("application:configuration") {
 
 		compile ("com.h2database:h2")
 
-		compile ("net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}")
-		compile ("org.codehaus.janino:janino:${janinoVersion}")
-
 		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
-
-		optional ("org.springframework.boot:spring-boot-devtools")
-
-		testCompile app_tests.unit_test
-		testCompile app_tests.spring_test
 	}
 }
 
@@ -143,8 +115,6 @@ project("application:core") {
 		compile group: 'com.google.code.findbugs', name: 'jsr305', version: "${nullableVersion}"
 
 		provided group: 'org.immutables', name: 'value', version: "${immutablesVersion}"
-
-		testCompile app_tests.unit_test
 	}
 }
 
@@ -158,10 +128,9 @@ project("application:periphery:data") {
 		compile project(':application:core')
 
 		compile("org.springframework.boot:spring-boot-starter-data-jpa")
+		compile ('org.springframework.boot:spring-boot-starter-actuator')
+		compile ('org.springframework.boot:spring-boot-actuator-docs')
 		compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
-
-		testCompile app_tests.unit_test
-		testCompile app_tests.spring_test
 	}
 }
 
@@ -175,8 +144,5 @@ project("application:periphery:web") {
 		compile("org.springframework.boot:spring-boot-starter-hateoas")
 		compile("org.springframework.data:spring-data-rest-hal-browser")
 		compile("org.springframework.boot:spring-boot-starter-aop")
-
-		testCompile app_tests.unit_test
-		testCompile app_tests.spring_test
 	}
 }

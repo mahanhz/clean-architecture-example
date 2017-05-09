@@ -4,7 +4,12 @@ endpoints:
 
 management:
   context-path: /manage
+  security:
+    enabled: false
 
+security:
+  ignored: /h2-console/**
+  
 server:
   port: 13001
   session:

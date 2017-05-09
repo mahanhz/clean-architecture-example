@@ -12,10 +12,3 @@ springBoot {
 bootRun {
     systemProperties = System.properties
 }
-
-jar {
-    // Do not include environment specific properties in the built jar
-    exclude 'application-*'
-    exclude 'bootstrap-*'
-    exclude '*.sql'
-}
