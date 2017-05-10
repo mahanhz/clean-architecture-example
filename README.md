@@ -24,13 +24,13 @@ That is why these two things need to be separated.
 ## Building and running the app
 
 ### Enable Annotation Processing
-This example app uses http://immutables.github.io/
+**Note:** This example app uses [Immutables](http://immutables.github.io/), hence the need to enable annotation processing
 
 In IntelliJ: 
-  1. **File > Settings > Build > Annotation Processors**
+  1. **File > Settings > Build > Compiler > Annotation Processors**
   2. Tick **Enable Annotation Processing** and select **Module content root**
-  
-  In **application > core** module right click on the generated folder and **Mark directory as > Generated Sources Root**
+  3. Build the project via **Build > Build Project**
+  4. In **application > core** module right click on  **generated** folder and **Mark directory as > Generated Sources Root**
 
 ### Run the application
 On the command line in the clean-architecture-example folder type **gradlew bootRun**
