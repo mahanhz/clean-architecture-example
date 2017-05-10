@@ -4,6 +4,8 @@ The basic purpose of clean architecture is to make clear the intention of what t
 
 That is why these two things need to be separated.
 
+![Alt text](Clean_Architecture.png)
+
 ## The what
 | Package     | Intent |
 | --------|---------|
