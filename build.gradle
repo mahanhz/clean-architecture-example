@@ -64,6 +64,8 @@ ext {
 
 	immutablesVersion = '2.4.6'
 	nullableVersion = '3.0.2'
+
+	springfoxSwagger2= '2.7.0'
 }
 
 project("application") {
@@ -73,6 +75,21 @@ project("application") {
 		compile project(':application:configuration')
 
 		optional ("org.springframework.boot:spring-boot-devtools")
+	}
+
+	springBoot {
+		mainClass = 'com.example.clean.app.MainApplication'
+
+		buildInfo {
+			additionalProperties = [
+					'description': "${description}"
+			]
+		}
+	}
+
+    // Make the System.properties available in the bootRun task.
+	bootRun {
+		systemProperties = System.properties
 	}
 }
 
@@ -92,6 +109,7 @@ project("application:configuration") {
 	description = "Application configuration"
 
 	dependencies {
+		compile project(':application:adapter')
 		compile project(':application:core')
 		compile project(':application:periphery:data')
 		compile project(':application:periphery:web')
@@ -139,6 +157,9 @@ project("application:periphery:web") {
 
 	dependencies {
 		compile project(':application:adapter')
+
+		compile ("io.springfox:springfox-swagger-ui:${springfoxSwagger2}")
+		compile ("io.springfox:springfox-swagger2:${springfoxSwagger2}")
 
 		compile("org.springframework.boot:spring-boot-starter-web")
 		compile("org.springframework.boot:spring-boot-starter-hateoas")

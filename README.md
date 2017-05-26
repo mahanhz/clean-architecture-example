@@ -38,3 +38,6 @@ In IntelliJ:
 On the command line in the clean-architecture-example folder type **gradlew bootRun**
 
 **Application URL:** http://localhost:13001
+
+### REST documentation
+**URL:** http://localhost:13001/swagger-ui.html

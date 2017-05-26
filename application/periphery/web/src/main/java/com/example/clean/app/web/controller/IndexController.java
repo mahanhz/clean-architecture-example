@@ -11,7 +11,7 @@ import static com.example.clean.app.web.controller.CommonLinks.customersLink;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping(path = { "/", "/api" })
+@RequestMapping(path = { "/", "/api" }, produces = MediaTypes.APPLICATION_JSON_V1_VALUE)
 public class IndexController {
 
     @GetMapping

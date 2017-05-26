@@ -11,6 +11,9 @@ security:
   ignored: /h2-console/**
   
 server:
+  error:
+    whitelabel:
+      enabled: false
   port: 13001
   session:
     timeout: 600 # 10 minutes

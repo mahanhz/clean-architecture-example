@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 
 import static com.example.clean.app.web.controller.CommonLinks.customersLink;
 import static com.example.clean.app.web.controller.CommonLinks.homeLink;
+import static com.example.clean.app.web.controller.MediaTypes.APPLICATION_JSON_V1_VALUE;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(path = "/api/customers")
+@RequestMapping(path = "/api/customers", produces = APPLICATION_JSON_V1_VALUE)
 public class CustomerController {
 
     public static final String CREATE = "create";
@@ -36,7 +36,7 @@ public class CustomerController {
         this.customerAdapter = notNull(customerAdapter);
     }
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     public ResponseEntity<Resource<CustomersDTO>> customers() {
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customers());
@@ -52,7 +52,7 @@ public class CustomerController {
         return ResponseEntity.ok(customersDto);
     }
 
-    @GetMapping(path = "/{customerId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{customerId}")
     public ResponseEntity<Resource<CustomerDTO>> customer(@PathVariable final long customerId) {
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customer(customerId));
@@ -71,7 +71,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerDto);
     }
 
-    @PostMapping(path = "/" + CREATE, consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/" + CREATE,  consumes = APPLICATION_JSON_V1_VALUE)
     public ResponseEntity<?> create(@RequestBody @Valid final CustomerDTO customerDto) {
 
         customerAdapter.create(customerDto);
@@ -79,7 +79,7 @@ public class CustomerController {
         return ResponseEntity.created(URI.create(customersLink().getHref())).build();
     }
 
-    @PutMapping(path = "/" + UPDATE, consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/" + UPDATE, consumes = APPLICATION_JSON_V1_VALUE)
     public ResponseEntity<?> update(@RequestBody @Valid final CustomerDTO customerDto) {
 
         customerAdapter.update(customerDto);
