@@ -39,5 +39,8 @@ On the command line in the clean-architecture-example folder type **gradlew boot
 
 **Application URL:** http://localhost:13001
 
-### REST documentation
+## REST documentation
 **URL:** http://localhost:13001/swagger-ui.html
+
+To see the Swagger documentation in read-only mode run the application with production profile  
+**gradlew bootRun -Dspring.profiles.active=production**
