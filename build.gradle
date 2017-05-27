@@ -39,7 +39,8 @@ configure(allprojects) {
 	}
 }
 
-configure(subprojects - project(":application:core") - project(":application:adapter")) {
+def frameworkAgnostic = [':application:core', ':application:adapter']
+configure(subprojects - frameworkAgnostic.collect { project(it) }) {
 	apply plugin: 'io.spring.dependency-management'
 
 	dependencyManagement {
@@ -58,14 +59,13 @@ task wrapper(type: Wrapper) {
 }
 
 ext {
-	commonsLangVersion = '3.5'
-
-	jacksonVersion = '2.8.8'
-
-	immutablesVersion = '2.4.6'
-	nullableVersion = '3.0.2'
-
-	springfoxSwagger2= '2.7.0'
+	versions = [
+		commonsLang: '3.5',
+		immutables: '2.4.6',
+		jackson: '2.8.8',
+		nullableJsr305: '3.0.2',
+		springfoxSwagger2: '2.7.0'
+	]
 }
 
 project("application") {
@@ -99,9 +99,9 @@ project("application:adapter") {
 	dependencies {
 		compile project(':application:core')
 
-		compile ("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
-		compile ("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+		compile ("com.fasterxml.jackson.core:jackson-core:${versions.jackson}")
+		compile ("com.fasterxml.jackson.core:jackson-databind:${versions.jackson}")
+		compile ("org.apache.commons:commons-lang3:${versions.commonsLang}")
 	}
 }
 
@@ -121,7 +121,7 @@ project("application:configuration") {
 
 		compile ("com.h2database:h2")
 
-		compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+		compile ("org.apache.commons:commons-lang3:${versions.commonsLang}")
 	}
 }
 
@@ -129,10 +129,10 @@ project("application:core") {
 	description = "Application core"
 
 	dependencies {
-		compile group: 'org.apache.commons', name: 'commons-lang3', version: "${commonsLangVersion}"
-		compile group: 'com.google.code.findbugs', name: 'jsr305', version: "${nullableVersion}"
+		compile group: 'org.apache.commons', name: 'commons-lang3', version: "${versions.commonsLang}"
+		compile group: 'com.google.code.findbugs', name: 'jsr305', version: "${versions.nullableJsr305}"
 
-		provided group: 'org.immutables', name: 'value', version: "${immutablesVersion}"
+		provided group: 'org.immutables', name: 'value', version: "${versions.immutables}"
 	}
 }
 
@@ -148,7 +148,7 @@ project("application:periphery:data") {
 		compile("org.springframework.boot:spring-boot-starter-data-jpa")
 		compile ('org.springframework.boot:spring-boot-starter-actuator')
 		compile ('org.springframework.boot:spring-boot-actuator-docs')
-		compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
+		compile("org.apache.commons:commons-lang3:${versions.commonsLang}")
 	}
 }
 
@@ -158,12 +158,12 @@ project("application:periphery:web") {
 	dependencies {
 		compile project(':application:adapter')
 
-		compile ("io.springfox:springfox-swagger-ui:${springfoxSwagger2}")
-		compile ("io.springfox:springfox-swagger2:${springfoxSwagger2}")
+		compile ("io.springfox:springfox-swagger-ui:${versions.springfoxSwagger2}")
+		compile ("io.springfox:springfox-swagger2:${versions.springfoxSwagger2}")
 
 		compile("org.springframework.boot:spring-boot-starter-web")
 		compile("org.springframework.boot:spring-boot-starter-hateoas")
-		compile("org.springframework.data:spring-data-rest-hal-browser")
 		compile("org.springframework.boot:spring-boot-starter-aop")
+		compile("org.springframework.data:spring-data-rest-hal-browser")
 	}
 }
