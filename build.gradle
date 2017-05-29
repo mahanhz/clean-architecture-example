@@ -61,12 +61,37 @@ task wrapper(type: Wrapper) {
 ext {
 	versions = [
 		commonsLang: '3.5',
-		immutables: '2.4.6',
+		guava: '21.0',
 		jackson: '2.8.8',
+		immutables: '2.4.6',
 		nullableJsr305: '3.0.2',
 		springfoxSwagger2: '2.7.0'
 	]
+	test_versions = [
+		assertJ: '3.6.2',
+		jsonSchema: '1.0.21',
+		jsonSchemaValidator: '2.2.6',
+		junit: '4.12',
+		junitParams: '1.1.0',
+		mockito: '2.7.22',
+	]
 }
+
+ext.app_tests = [
+		integration_test: [
+				"com.kjetland:mbknor-jackson-jsonschema_2.12:${test_versions.jsonSchema}",
+				"com.github.fge:json-schema-validator:${test_versions.jsonSchemaValidator}"
+		],
+		spring_test: [
+				"org.springframework.boot:spring-boot-starter-test",
+		],
+		unit_test: [
+				"junit:junit:${test_versions.junit}",
+				"org.assertj:assertj-core:${test_versions.assertJ}",
+				"org.mockito:mockito-core:${test_versions.mockito}",
+				"pl.pragmatists:JUnitParams:${test_versions.junitParams}"
+		]
+]
 
 project("application") {
 	description = "Application"
@@ -129,10 +154,13 @@ project("application:core") {
 	description = "Application core"
 
 	dependencies {
-		compile group: 'org.apache.commons', name: 'commons-lang3', version: "${versions.commonsLang}"
 		compile group: 'com.google.code.findbugs', name: 'jsr305', version: "${versions.nullableJsr305}"
+		compile group: 'com.google.guava', name: 'guava', version: "${versions.guava}"
+		compile group: 'org.apache.commons', name: 'commons-lang3', version: "${versions.commonsLang}"
 
 		provided group: 'org.immutables', name: 'value', version: "${versions.immutables}"
+
+		testCompile app_tests.unit_test
 	}
 }
 
