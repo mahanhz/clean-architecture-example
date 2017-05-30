@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CustomerController.class)
-public class CustsomerControllerTest {
+public class CustomerControllerTest {
 
     public static final String API_CUSTOMERS_PATH = "/api/customers";
 
@@ -80,10 +80,9 @@ public class CustsomerControllerTest {
 
         final String json = mapper.writeValueAsString(customerDTO);
 
-        final String uri = API_CUSTOMERS_PATH + "/create";
-        final ResultActions result = mvc.perform(post(uri).contentType(MediaTypes.APPLICATION_JSON_V1)
-                                                          .accept(MediaTypes.APPLICATION_JSON_V1)
-                                                          .content(json))
+        final ResultActions result = mvc.perform(post(API_CUSTOMERS_PATH).contentType(MediaTypes.APPLICATION_JSON_V1)
+                                                                         .accept(MediaTypes.APPLICATION_JSON_V1)
+                                                                         .content(json))
                                         .andExpect(status().isCreated());
 
         final String locationHeader = result.andReturn().getResponse().getHeader("Location");

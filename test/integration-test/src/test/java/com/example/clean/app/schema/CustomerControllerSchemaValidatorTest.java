@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static com.example.clean.app.helper.AdapterHelper.customerDTO;
 import static com.example.clean.app.helper.AdapterHelper.customersDTO;
 import static com.example.clean.app.helper.SchemaValidationHelper.assertSuccessfulSchemaValidation;
-import static com.example.clean.app.web.controller.CustsomerControllerTest.API_CUSTOMERS_PATH;
+import static com.example.clean.app.web.controller.CustomerControllerTest.API_CUSTOMERS_PATH;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 

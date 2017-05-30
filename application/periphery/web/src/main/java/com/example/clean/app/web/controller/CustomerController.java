@@ -41,7 +41,7 @@ public class CustomerController {
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customers());
 
-        final ControllerLinkBuilder createLink = linkTo(CustomerController.class).slash(CREATE);
+        final ControllerLinkBuilder createLink = linkTo(CustomerController.class);
 
         final Resource<CustomersDTO> customersDto = new Resource<>(customerAdapter.customers());
         customersDto.add(selfLink.withSelfRel());
@@ -70,7 +70,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerDto);
     }
 
-    @PostMapping(path = "/" + CREATE,  consumes = APPLICATION_JSON_V1_VALUE)
+    @PostMapping(consumes = APPLICATION_JSON_V1_VALUE)
     public ResponseEntity<?> create(@RequestBody @Valid final CustomerDTO customerDto) {
 
         customerAdapter.create(customerDto);
