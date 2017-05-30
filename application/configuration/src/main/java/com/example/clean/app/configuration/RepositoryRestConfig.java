@@ -1,4 +1,4 @@
-package com.example.clean.app;
+package com.example.clean.app.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;

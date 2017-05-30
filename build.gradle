@@ -63,6 +63,7 @@ ext {
 		commonsLang: '3.5',
 		guava: '21.0',
 		jackson: '2.8.8',
+		jug: '3.1.4',
 		immutables: '2.4.6',
 		nullableJsr305: '3.0.2',
 		springfoxSwagger2: '2.7.0'
@@ -190,9 +191,9 @@ project("application:periphery:web") {
 	dependencies {
 		compile project(':application:adapter')
 
-		compile ("io.springfox:springfox-swagger-ui:${versions.springfoxSwagger2}")
-		compile ("io.springfox:springfox-swagger2:${versions.springfoxSwagger2}")
-
+		compile("com.fasterxml.uuid:java-uuid-generator:${versions.jug}")
+		compile("io.springfox:springfox-swagger-ui:${versions.springfoxSwagger2}")
+		compile("io.springfox:springfox-swagger2:${versions.springfoxSwagger2}")
 		compile("org.springframework.boot:spring-boot-starter-web")
 		compile("org.springframework.boot:spring-boot-starter-hateoas")
 		compile("org.springframework.boot:spring-boot-starter-aop")

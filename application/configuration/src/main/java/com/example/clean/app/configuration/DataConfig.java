@@ -3,6 +3,7 @@ package com.example.clean.app.configuration;
 import com.example.clean.app.core.boundary.exit.CustomerEditRepository;
 import com.example.clean.app.core.boundary.exit.CustomerRepository;
 import com.example.clean.app.data.jpa.repository.CustomerJpaRepository;
+import com.example.clean.app.data.jpa.repository.JpaPackageMarker;
 import com.example.clean.app.data.repository.CustomerDetailsRepository;
 import com.example.clean.app.data.repository.CustomerOperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"com.example.clean.app.data.jpa.repository"})
+@EnableJpaRepositories(basePackageClasses = JpaPackageMarker.class)
 public class DataConfig {
 
     @Autowired
