@@ -127,6 +127,8 @@ project("application:adapter") {
 		compile ("com.fasterxml.jackson.core:jackson-core:${versions.jackson}")
 		compile ("com.fasterxml.jackson.core:jackson-databind:${versions.jackson}")
 		compile ("org.apache.commons:commons-lang3:${versions.commonsLang}")
+
+		testCompile app_tests.unit_test
 	}
 }
 
