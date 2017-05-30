@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Entity(name = "customer_t")
 public class CustomerEntity extends BaseEntity {
@@ -18,6 +19,15 @@ public class CustomerEntity extends BaseEntity {
 
     @Embedded
     private Name name;
+
+    // Needed by JPA
+    protected CustomerEntity() {
+    }
+
+    public CustomerEntity(final long id, final Name name) {
+        this.id = id;
+        this.name = notNull(name);
+    }
 
     public long getId() {
         return id;

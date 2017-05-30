@@ -32,21 +32,18 @@ public class CustomerOperationsRepository implements CustomerEditRepository {
     }
 
     private CustomerEntity customerEntity(final Customer customer) {
-        final CustomerEntity entity = new CustomerEntity();
+        final long id = customer.getId().getId();
+        final Name name = name(customer.getName());
 
-        entity.setId(customer.getId().getId());
-        entity.setName(name(customer.getName()));
-
-        return entity;
+        return new CustomerEntity(id, name);
     }
 
     private Name name(final com.example.clean.app.core.domain.Name customerName) {
-        final Name name = new Name();
-        name.setFirstName(customerName.firstName().value());
-        name.setMiddleName(customerName.middleName().value());
-        name.setLastName(customerName.lastName().value());
-        name.setSuffix(customerName.suffix().value());
+        final String firstName = customerName.firstName().value();
+        final String middleName = customerName.middleName().value();
+        final String lastName = customerName.lastName().value();
+        final String suffix = customerName.suffix().value();
 
-        return name;
+        return Name.create(firstName, middleName, lastName, suffix);
     }
 }

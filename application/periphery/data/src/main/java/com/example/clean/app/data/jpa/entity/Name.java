@@ -11,7 +11,7 @@ public final class Name {
     private String lastName;
     private String suffix;
 
-    public Name() {
+    protected Name() {
     }
 
     private Name(final String firstName, final String middleName, final String lastName, final String suffix) {

@@ -174,9 +174,11 @@ project("application:periphery:data") {
 		compile project(':application:core')
 
 		compile("org.springframework.boot:spring-boot-starter-data-jpa")
-		compile ('org.springframework.boot:spring-boot-starter-actuator')
-		compile ('org.springframework.boot:spring-boot-actuator-docs')
+		compile('org.springframework.boot:spring-boot-starter-actuator')
+		compile('org.springframework.boot:spring-boot-actuator-docs')
 		compile("org.apache.commons:commons-lang3:${versions.commonsLang}")
+
+		testCompile app_tests.unit_test
 	}
 }
 
