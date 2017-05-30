@@ -1,0 +1,11 @@
+project("test:integration-test") {
+    description = "Integration test"
+
+    dependencies {
+        compile project(':application')
+
+        testCompile app_tests.integration_test
+        testCompile app_tests.unit_test
+        testCompile app_tests.spring_test
+    }
+}

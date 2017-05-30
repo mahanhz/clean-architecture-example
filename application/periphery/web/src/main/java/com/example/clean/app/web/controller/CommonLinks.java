@@ -9,6 +9,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public final class CommonLinks {
 
     public static final String REL_HOME = "home";
+    public static final String REL_CUSTOMERS = "customers";
+    public static final String REL_CREATE = "create";
+    public static final String REL_UPDATE = "update";
+    public static final String REL_DELETE = "delete";
+    public static final String REL_CUSTOMER_PREFIX = "customer-";
 
     private CommonLinks() {
         // Prevent instantiation
@@ -21,6 +26,6 @@ public final class CommonLinks {
 
     public static Link customersLink() {
         final ControllerLinkBuilder customersLink = linkTo(methodOn(CustomerController.class).customers());
-        return customersLink.withRel("customers");
+        return customersLink.withRel(REL_CUSTOMERS);
     }
 }

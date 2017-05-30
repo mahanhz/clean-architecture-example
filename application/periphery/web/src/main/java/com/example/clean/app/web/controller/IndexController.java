@@ -21,7 +21,6 @@ public class IndexController {
 
         final ResourceSupport resourceSupport = new ResourceSupport();
         resourceSupport.add(indexLink.withSelfRel());
-
         resourceSupport.add(customersLink());
 
         return ResponseEntity.ok(resourceSupport);

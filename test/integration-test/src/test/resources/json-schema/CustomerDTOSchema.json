@@ -1,0 +1,53 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title" : "Customer DTO Schema",
+  "type" : "object",
+  "additionalProperties" : false,
+  "properties" : {
+    "id" : {
+      "type" : "integer"
+    },
+    "name" : {
+      "$ref" : "#/definitions/NameDTO"
+    },
+    "links" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Link"
+      }
+    }
+  },
+  "required" : [ "id" ],
+  "definitions" : {
+    "NameDTO" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "middleName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "suffix" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "properties" : {
+        "rel" : {
+          "type" : "string"
+        },
+        "href" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
