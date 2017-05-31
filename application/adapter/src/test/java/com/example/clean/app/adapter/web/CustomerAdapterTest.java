@@ -23,10 +23,10 @@ import static org.mockito.Mockito.verify;
 public class CustomerAdapterTest {
 
     @Mock
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @Mock
-    CustomerEditService customerEditService;
+    private CustomerEditService customerEditService;
 
     private CustomerAdapter customerAdapter;
 
