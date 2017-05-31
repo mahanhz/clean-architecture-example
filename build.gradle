@@ -76,6 +76,7 @@ ext {
 	]
 	test_versions = [
 		assertJ: '3.6.2',
+		equalsVerifier: '2.2.2',
 		jsonSchema: '1.0.21',
 		jsonSchemaValidator: '2.2.6',
 		junit: '4.12',
@@ -94,6 +95,7 @@ ext.app_tests = [
 		],
 		unit_test: [
 				"junit:junit:${test_versions.junit}",
+				"nl.jqno.equalsverifier:equalsverifier:${test_versions.equalsVerifier}",
 				"org.assertj:assertj-core:${test_versions.assertJ}",
 				"org.mockito:mockito-core:${test_versions.mockito}",
 				"pl.pragmatists:JUnitParams:${test_versions.junitParams}"

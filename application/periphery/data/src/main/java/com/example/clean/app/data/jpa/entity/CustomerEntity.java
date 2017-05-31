@@ -11,7 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Entity(name = "customer_t")
-public class CustomerEntity extends BaseEntity {
+public final class CustomerEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
