@@ -4,6 +4,7 @@ import com.example.clean.app.adapter.web.CustomerAdapter;
 import com.example.clean.app.adapter.web.CustomerDTOFactory;
 import com.example.clean.app.adapter.web.api.CustomerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import org.junit.Test;
@@ -24,9 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.hateoas.Link.REL_SELF;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -40,6 +40,20 @@ public class CustomerControllerTest {
 
     @MockBean
     private CustomerAdapter customerAdapter;
+
+    @Test
+    public void shouldHandleException() throws Exception {
+
+        final ResultActions result = mvc.perform(get("/api/customers/abc"))
+                                        .andExpect(status().isOk())
+                                        .andExpect(content().contentTypeCompatibleWith(MediaTypes.APPLICATION_VND_ERROR_JSON));
+
+        final String content = result.andReturn().getResponse().getContentAsString();
+        final Object document = Configuration.defaultConfiguration().jsonProvider().parse(content);
+
+        final JSONArray logrefs = JsonPath.read(document, "$..logref");
+        assertThat(logrefs).contains("errorId");
+    }
 
     @Test
     public void shouldGetCustomers() throws Exception {

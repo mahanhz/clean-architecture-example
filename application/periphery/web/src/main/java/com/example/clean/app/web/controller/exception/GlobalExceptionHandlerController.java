@@ -21,9 +21,9 @@ import java.util.UUID;
 import static com.example.clean.app.web.controller.exception.VndErrorFactory.vndErrors;
 
 @RestControllerAdvice(basePackageClasses = { ControllerPackageMarker.class })
-public class GlobalExceptionRestHandlerController {
+public class GlobalExceptionHandlerController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionRestHandlerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandlerController.class);
 
     public static final String ERROR_ID = "errorId";
     public static final String STATUS = "status";

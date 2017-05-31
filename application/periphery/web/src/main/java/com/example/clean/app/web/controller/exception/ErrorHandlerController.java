@@ -19,7 +19,7 @@ import static com.example.clean.app.web.controller.exception.VndErrorFactory.vnd
 import static java.util.stream.Collectors.toMap;
 
 @RestController
-public class ErrorRestController implements ErrorController {
+public class ErrorHandlerController implements ErrorController {
 
     public final static String PATH = "/error";
 
