@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mahanhz/clean-architecture-example.svg?branch=master)](https://travis-ci.org/mahanhz/clean-architecture-example)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/af9ebca79be64254b668953aa337f9d6)](https://www.codacy.com/app/mahanhz/clean-architecture-example?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mahanhz/clean-architecture-example&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://coveralls.io/repos/github/mahanhz/clusterview/badge.svg?branch=master)](https://coveralls.io/github/mahanhz/clusterview?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/mahanhz/clean-architecture-example/badge.svg?branch=master)](https://coveralls.io/github/mahanhz/clean-architecture-example?branch=master)
 
 The basic purpose of clean architecture is to make clear the intention of what the application does and how it does it.
 
