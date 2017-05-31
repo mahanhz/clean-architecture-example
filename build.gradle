@@ -21,7 +21,13 @@ buildscript {
 
 plugins {
 	id "io.spring.dependency-management" version "1.0.2.RELEASE"
+	id 'net.saliman.cobertura' version '2.4.0'
+	id 'com.github.kt3k.coveralls' version '2.8.1'
 }
+
+apply plugin: 'net.saliman.cobertura'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco'
 
 configure(allprojects) {
 	apply plugin: 'java'
