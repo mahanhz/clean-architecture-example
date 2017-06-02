@@ -1,4 +1,4 @@
-rootProject.name="Clean Architecture example"
+rootProject.name="clean-architecture-example"
 
 include "application:adapter"
 include "application:configuration"
