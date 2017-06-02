@@ -28,4 +28,9 @@ public final class CommonLinks {
         final ControllerLinkBuilder customersLink = linkTo(methodOn(CustomerController.class).customers());
         return customersLink.withRel(REL_CUSTOMERS);
     }
+
+    public static Link customersV2Link() {
+        final ControllerLinkBuilder customersLink = linkTo(methodOn(CustomerControllerV2.class).customers());
+        return customersLink.withRel(REL_CUSTOMERS);
+    }
 }

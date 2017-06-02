@@ -1,7 +1,9 @@
 package com.example.clean.app.adapter.web;
 
 import com.example.clean.app.adapter.web.api.CustomerDTO;
+import com.example.clean.app.adapter.web.api.CustomerV2DTO;
 import com.example.clean.app.adapter.web.api.CustomersDTO;
+import com.example.clean.app.adapter.web.api.CustomersV2DTO;
 import com.example.clean.app.core.boundary.enter.CustomerEditService;
 import com.example.clean.app.core.boundary.enter.CustomerService;
 import com.example.clean.app.core.domain.Customer;
@@ -26,10 +28,22 @@ public class CustomerAdapter {
         return new CustomersDTO(CustomerDTOFactory.customers(customers));
     }
 
+    public CustomersV2DTO customersV2() {
+        final List<Customer> customers = customerService.customers();
+
+        return new CustomersV2DTO(CustomerDTOFactory.customersV2(customers));
+    }
+
     public CustomerDTO customer(final long customerId) {
         final Customer customer = customerService.customer(Customer.Id.of(customerId));
 
         return CustomerDTOFactory.customer(customer);
+    }
+
+    public CustomerV2DTO customerV2(final long customerId) {
+        final Customer customer = customerService.customer(Customer.Id.of(customerId));
+
+        return CustomerDTOFactory.customerV2(customer);
     }
 
     public void create(final CustomerDTO customerDTO) {
