@@ -4,7 +4,7 @@ Date: 01-August-2017
 
 ## Status
 
-Supercedes [5. API Versioning](0005-api-versioning.md)
+Supersedes [5. API Versioning](0005-api-versioning.md)
 
 ## Context
 

@@ -4,7 +4,7 @@ Date: 28-July-2017
 
 ## Status
 
-Superceded by [6. Avoid API Versioning](0006-avoid-api-versioning.md)
+Superseded by [6. Avoid API Versioning](0006-avoid-api-versioning.md)
 
 ## Context
 
