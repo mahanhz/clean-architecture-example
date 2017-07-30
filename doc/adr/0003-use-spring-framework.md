@@ -13,6 +13,7 @@ We need to build the how part of the application
 ## Decision
 
 We will use Springs ecosystem to implement how our application works.
+
 More explicitly we will use Spring Boot, Spring Data and Spring WebMvc.
 
 ## Consequences

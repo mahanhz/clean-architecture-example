@@ -12,7 +12,8 @@ We need to distinguish what our application does versus how it does it.
 
 ## Decision
 
-We will use clean architecture to ensure a clear separation is maintained between what and how.  
+We will use clean architecture to ensure a clear separation is maintained between what and how.
+ 
 See [README.md](../../README.md) for details. 
 
 ## Consequences
