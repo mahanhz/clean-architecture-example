@@ -22,7 +22,7 @@ We will not introduce breaking changes.
 
 Developers are happier, and the codebase is once again easier to reason about.
 
-It's difficult to keep all change in the API forever, so we need metrics and measure usage to identify when a feature can be removed.
+It's difficult to keep all the changes in the API forever, so we need metrics and to measure usage to identify when a feature can be removed.
 
 ## Made by
 
