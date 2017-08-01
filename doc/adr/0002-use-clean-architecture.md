@@ -20,3 +20,7 @@ See [README.md](../../README.md) for details.
 
 Easier to reason about the application.
 Easier to replace segments of the application without impacting the rest.
+
+## Made by
+
+Mahan Hashemizadeh

@@ -21,3 +21,7 @@ We will assess the benefits of Kotlin by rewriting this application.
 See the [Kotlinization](https://github.com/mahanhz/kotlinization) repository.
 
 Also see the [article](https://dzone.com/articles/kotlinization) based on the experience of rewriting this application in Kotlin.
+
+## Made by
+
+Mahan Hashemizadeh
