@@ -75,6 +75,10 @@ ext {
 		nullableJsr305: '3.0.2',
 		springfoxSwagger2: '2.7.0'
 	]
+	log_versions = [
+		janino: '3.0.6',
+		logstashLogback: '4.8'
+	]
 	test_versions = [
 		assertJ: '3.6.2',
 		equalsVerifier: '2.2.2',

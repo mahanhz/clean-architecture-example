@@ -3,6 +3,8 @@ package com.example.clean.app.web.controller;
 import com.example.clean.app.adapter.web.CustomerAdapter;
 import com.example.clean.app.adapter.web.api.CustomerDTO;
 import com.example.clean.app.adapter.web.api.CustomersDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -25,6 +27,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping(path = "/api/customers", produces = APPLICATION_JSON_V1_VALUE)
 public class CustomerController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
     public static final String CREATE = "create";
     public static final String UPDATE = "update";
@@ -54,6 +58,8 @@ public class CustomerController {
 
     @GetMapping(path = "/{customerId}")
     public ResponseEntity<Resource<CustomerDTO>> customer(@PathVariable final long customerId) {
+
+        LOGGER.info("Getting customer {}", customerId);
 
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customer(customerId));
 

@@ -1,0 +1,34 @@
+<configuration>
+
+    <!-- This will help diagnose logback issues -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <springProfile name="duplicate-default">
+        <turboFilter class="ch.qos.logback.classic.turbo.DuplicateMessageFilter"/>
+    </springProfile>
+
+    <!-- Added this as recommended by logstash-logback-encoder. See Async Appenders https://github.com/logstash/logstash-logback-encoder -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+    <property name="logLevel" value="INFO"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timeZone>UTC</timeZone>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>500</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="STDOUT" />
+    </appender>
+
+    <logger name="com.example" level="${logLevel}" additivity="false">
+        <appender-ref ref="ASYNC_STDOUT" />
+    </logger>
+
+    <root level="WARN">
+        <appender-ref ref="ASYNC_STDOUT" />
+    </root>
+
+</configuration>
