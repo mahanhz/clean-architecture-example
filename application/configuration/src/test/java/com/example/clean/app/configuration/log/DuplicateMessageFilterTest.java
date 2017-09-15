@@ -8,23 +8,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DuplicateMessageFilterTest {
 
-    private static final String WELCOME_MSG = "Welcome ";
-    private static final String TAKE_A_SEAT_MSG = "Take a seat ";
-    private static final String[] USER_A = { "User A" };
-    private static final String[] USER_B = { "User B" };
+    private static final String MESSAGE = "Getting customer {}";
 
     @Test
     public void shouldOnlyConsiderRawMessage() {
         final DuplicateMessageFilter dmf = new DuplicateMessageFilter();
-        dmf.setAllowedRepetitions(0);
+        dmf.setAllowedRepetitions(5);
         dmf.start();
 
-        assertThat(logMessage(dmf, WELCOME_MSG, USER_A)).isEqualTo(FilterReply.NEUTRAL);
-        assertThat(logMessage(dmf, TAKE_A_SEAT_MSG, USER_A)).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("2"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("3"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("4"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("5"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("6"))).isEqualTo(FilterReply.NEUTRAL);
 
-        // repetition
-        assertThat(logMessage(dmf, WELCOME_MSG, USER_B)).isEqualTo(FilterReply.DENY);
-        assertThat(logMessage(dmf, TAKE_A_SEAT_MSG, USER_B)).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("7"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("8"))).isEqualTo(FilterReply.DENY);
+    }
+
+    private String[] customerId(final String id) {
+        return new String[]{id};
     }
 
     private FilterReply logMessage(final DuplicateMessageFilter dmf, final String message, final String[] params) {
