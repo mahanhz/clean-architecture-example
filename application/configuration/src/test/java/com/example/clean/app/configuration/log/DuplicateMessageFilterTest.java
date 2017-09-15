@@ -1,6 +1,7 @@
 package com.example.clean.app.configuration.log;
 
 import ch.qos.logback.classic.turbo.DuplicateMessageFilter;
+import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.spi.FilterReply;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class DuplicateMessageFilterTest {
         return new String[]{id};
     }
 
-    private FilterReply logMessage(final DuplicateMessageFilter dmf, final String message, final String[] params) {
+    private FilterReply logMessage(final TurboFilter dmf, final String message, final String[] params) {
         return dmf.decide(null, null, null, message, params, null);
     }
 }

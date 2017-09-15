@@ -1,0 +1,81 @@
+package com.example.clean.app.configuration.log;
+
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.turbo.TurboFilter;
+import ch.qos.logback.core.spi.FilterReply;
+import org.junit.Test;
+import org.slf4j.LoggerFactory;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
+public class ExpiringDuplicateMessageFilterTest {
+
+    private static final String MESSAGE = "Getting customer {}";
+
+    @Test
+    public void shouldConsiderMessageSimilarity() {
+        final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
+        dmf.setAllowedRepetitions(4);
+        dmf.start();
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("2"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("3"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("4"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("5"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("6"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("7"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("8"))).isEqualTo(FilterReply.NEUTRAL);
+    }
+
+    @Test
+    public void shouldAllowOnlyFourRepetitions() {
+        final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
+        dmf.setAllowedRepetitions(4);
+        dmf.start();
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+    }
+
+    @Test
+    public void shouldAllowAfterCacheHasExpired() throws Exception {
+        final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
+        dmf.setAllowedRepetitions(4);
+        dmf.setExpireAfterWriteSeconds(2);
+        dmf.start();
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+
+        Thread.sleep(3000);
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+    }
+
+    private String[] customerId(final String id) {
+        return new String[]{id};
+    }
+
+    private FilterReply logMessage(final TurboFilter dmf, final String message, final String[] params) {
+        return dmf.decide(null, logger(), null, message, params, null);
+    }
+
+    private Logger logger() {
+        return (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.example");
+    }
+}
