@@ -91,20 +91,20 @@ ext {
 }
 
 ext.app_tests = [
-		integration_test: [
-				"com.kjetland:mbknor-jackson-jsonschema_2.12:${test_versions.jsonSchema}",
-				"com.github.fge:json-schema-validator:${test_versions.jsonSchemaValidator}"
-		],
-		spring_test: [
-				"org.springframework.boot:spring-boot-starter-test",
-		],
-		unit_test: [
-				"junit:junit:${test_versions.junit}",
-				"nl.jqno.equalsverifier:equalsverifier:${test_versions.equalsVerifier}",
-				"org.assertj:assertj-core:${test_versions.assertJ}",
-				"org.mockito:mockito-core:${test_versions.mockito}",
-				"pl.pragmatists:JUnitParams:${test_versions.junitParams}"
-		]
+	integration_test: [
+		"com.kjetland:mbknor-jackson-jsonschema_2.12:${test_versions.jsonSchema}",
+		"com.github.fge:json-schema-validator:${test_versions.jsonSchemaValidator}"
+	],
+	spring_test: [
+	   "org.springframework.boot:spring-boot-starter-test"
+	],
+	unit_test: [
+		"junit:junit:${test_versions.junit}",
+		"nl.jqno.equalsverifier:equalsverifier:${test_versions.equalsVerifier}",
+		"org.assertj:assertj-core:${test_versions.assertJ}",
+		"org.mockito:mockito-core:${test_versions.mockito}",
+		"pl.pragmatists:JUnitParams:${test_versions.junitParams}"
+	]
 ]
 
 apply from: 'gradle/application.gradle'

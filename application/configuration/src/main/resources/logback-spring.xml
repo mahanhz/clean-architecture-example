@@ -12,16 +12,17 @@
             <allowedRepetitions>4</allowedRepetitions>
             <cacheSize>200</cacheSize>
             <expireAfterWriteSeconds>60</expireAfterWriteSeconds>
+            <excludeMarkers>AUDIT,SECURITY</excludeMarkers>
         </turboFilter>
     </springProfile>
 
-    <!-- Added this as recommended by logstash-logback-encoder. See Async Appenders https://github.com/logstash/logstash-logback-encoder -->
+<!-- Added this as recommended by logstash-logback-encoder. See Async Appenders https://github.com/logstash/logstash-logback-encoder -->
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
 
     <property name="logLevel" value="DEBUG"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] [%marker] %msg%n</pattern>
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
