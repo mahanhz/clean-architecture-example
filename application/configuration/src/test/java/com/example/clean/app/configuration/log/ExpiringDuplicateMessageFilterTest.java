@@ -3,6 +3,7 @@ package com.example.clean.app.configuration.log;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.spi.FilterReply;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -22,6 +23,7 @@ public class ExpiringDuplicateMessageFilterTest {
         dmf.setAllowedRepetitions(4);
         dmf.start();
 
+        // customerId parameter is considered as messages are not the same, so all are allowed
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("2"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("3"))).isEqualTo(FilterReply.NEUTRAL);
@@ -42,8 +44,11 @@ public class ExpiringDuplicateMessageFilterTest {
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("2"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("3"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
 
+        // messages are denied as the repetition count for customer 1 has been exceeded
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
@@ -62,12 +67,36 @@ public class ExpiringDuplicateMessageFilterTest {
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
 
+        // messages are denied as the repetition count for customer 1 has been exceeded
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
 
         Thread.sleep(3000);
 
+        // messages are allowed as the cache for customer 1 has expired
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+    }
+
+    @Test
+    public void shouldAllowRepetitionsWhenCacheSizeExceeded() {
+        final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
+        dmf.setAllowedRepetitions(4);
+        dmf.setCacheSize(2);
+        dmf.start();
+
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+
+        // exceed the cache
+        Assertions.assertThat(logMessage(dmf, "Another message", null)).isEqualTo(FilterReply.NEUTRAL);
+        Assertions.assertThat(logMessage(dmf, "Yet another message", null)).isEqualTo(FilterReply.NEUTRAL);
+
+        // messages are accepted since the cache has been exceeded
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
     }
 
