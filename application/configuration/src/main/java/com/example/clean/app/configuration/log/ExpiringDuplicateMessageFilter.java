@@ -20,9 +20,9 @@ import static org.apache.commons.lang3.StringUtils.*;
 
 public class ExpiringDuplicateMessageFilter extends TurboFilter {
 
-    private static final int MAX_KEY_LENGTH = 100;
-    private static final int DEFAULT_CACHE_SIZE = 100;
-    private static final int DEFAULT_ALLOWED_REPETITIONS = 5;
+    private static final int MAX_KEY_LENGTH                     = 100;
+    private static final int DEFAULT_CACHE_SIZE                 = 100;
+    private static final int DEFAULT_ALLOWED_REPETITIONS        = 5;
     private static final int DEFAULT_EXPIRE_AFTER_WRITE_SECONDS = 60;
 
     private int          allowedRepetitions      = DEFAULT_ALLOWED_REPETITIONS;
