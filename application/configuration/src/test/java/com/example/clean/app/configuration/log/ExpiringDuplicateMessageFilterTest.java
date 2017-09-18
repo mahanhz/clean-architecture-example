@@ -5,12 +5,16 @@ import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.spi.FilterReply;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class ExpiringDuplicateMessageFilterTest {
 
-    private static final String MESSAGE = "Getting customer {}";
+    private static final String MESSAGE         = "Getting customer {}";
+    private static final String SECURITY_MARKER = "SECURITY";
+    private static final String NORMAL_MARKER   = "NORMAL";
 
     @Test
     public void shouldConsiderMessageSimilarity() {
@@ -46,7 +50,7 @@ public class ExpiringDuplicateMessageFilterTest {
     }
 
     @Test
-    public void shouldAllowAfterCacheHasExpired() throws Exception {
+    public void shouldReappearAfterCacheHasExpired() throws Exception {
         final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
         dmf.setAllowedRepetitions(4);
         dmf.setExpireAfterWriteSeconds(2);
@@ -67,12 +71,47 @@ public class ExpiringDuplicateMessageFilterTest {
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
     }
 
+    @Test
+    public void shouldExcludeMarkers() throws Exception {
+        final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
+        dmf.setAllowedRepetitions(4);
+        dmf.setExcludeMarkers(SECURITY_MARKER);
+        dmf.start();
+
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+    }
+
     private String[] customerId(final String id) {
         return new String[]{id};
     }
 
-    private FilterReply logMessage(final TurboFilter dmf, final String message, final String[] params) {
-        return dmf.decide(null, logger(), null, message, params, null);
+    private FilterReply logMessage(final Marker marker,
+                                   final TurboFilter dmf,
+                                   final String message,
+                                   final String[] params) {
+        return dmf.decide(marker, logger(), null, message, params, null);
+    }
+
+    private FilterReply logMessage(final TurboFilter dmf,
+                                   final String message,
+                                   final String[] params) {
+        return logMessage(null, dmf, message, params);
+    }
+
+    private Marker marker(final String marker) {
+        return MarkerFactory.getMarker(marker);
     }
 
     private Logger logger() {
