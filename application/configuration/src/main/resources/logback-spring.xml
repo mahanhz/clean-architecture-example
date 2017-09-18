@@ -11,7 +11,7 @@
         <turboFilter class="com.example.clean.app.configuration.log.ExpiringDuplicateMessageFilter">
             <allowedRepetitions>4</allowedRepetitions>
             <cacheSize>200</cacheSize>
-            <expireAfterWriteSeconds>60</expireAfterWriteSeconds>
+            <expireAfterWriteSeconds>30</expireAfterWriteSeconds>
             <excludeMarkers>AUDIT,SECURITY</excludeMarkers>
         </turboFilter>
     </springProfile>
