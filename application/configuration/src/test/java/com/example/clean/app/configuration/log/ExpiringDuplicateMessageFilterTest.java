@@ -23,7 +23,8 @@ public class ExpiringDuplicateMessageFilterTest {
         dmf.setAllowedRepetitions(4);
         dmf.start();
 
-        // customerId parameter is considered as messages are not the same, so all are allowed
+        // customerId parameter is taken into consideration
+        // so all are different and allowed
         assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("2"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(dmf, MESSAGE, customerId("3"))).isEqualTo(FilterReply.NEUTRAL);
@@ -107,6 +108,7 @@ public class ExpiringDuplicateMessageFilterTest {
         dmf.setExcludeMarkers(SECURITY_MARKER);
         dmf.start();
 
+        // There is no limitation on security markers as they are excluded
         assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
@@ -114,6 +116,7 @@ public class ExpiringDuplicateMessageFilterTest {
         assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(marker(SECURITY_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
 
+        // The limit of 4 repetitions still applies to non security markers
         assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
         assertThat(logMessage(marker(NORMAL_MARKER), dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
