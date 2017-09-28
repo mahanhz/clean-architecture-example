@@ -80,7 +80,7 @@ public class ExpiringDuplicateMessageFilterTest {
     }
 
     @Test
-    public void shouldAllowRepetitionsWhenCacheSizeExceeded() {
+    public void shouldNotAllowRepetitionsWhenCacheSizeExceeded() {
         final ExpiringDuplicateMessageFilter dmf = new ExpiringDuplicateMessageFilter();
         dmf.setAllowedRepetitions(4);
         dmf.setCacheSize(2);
@@ -96,9 +96,9 @@ public class ExpiringDuplicateMessageFilterTest {
         Assertions.assertThat(logMessage(dmf, "Another message", null)).isEqualTo(FilterReply.NEUTRAL);
         Assertions.assertThat(logMessage(dmf, "Yet another message", null)).isEqualTo(FilterReply.NEUTRAL);
 
-        // messages are accepted since the cache has been exceeded
-        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
-        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.NEUTRAL);
+        // messages are not accepted even though the cache has been exceeded as caffeine uses LFU rather than LRU
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
+        assertThat(logMessage(dmf, MESSAGE, customerId("1"))).isEqualTo(FilterReply.DENY);
     }
 
     @Test

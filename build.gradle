@@ -67,6 +67,7 @@ task wrapper(type: Wrapper) {
 
 ext {
 	versions = [
+		caffeine: '2.5.6',
 		commonsLang: '3.6',
 		guava: '23.0',
 		jackson: '2.9.1',

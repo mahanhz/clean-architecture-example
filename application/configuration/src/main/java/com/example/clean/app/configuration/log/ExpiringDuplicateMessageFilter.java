@@ -4,8 +4,8 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.spi.FilterReply;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
@@ -122,10 +122,10 @@ public class ExpiringDuplicateMessageFilter extends TurboFilter {
     }
 
     private Cache<String, Integer> buildCache() {
-        return CacheBuilder.newBuilder()
-                           .expireAfterWrite(expireAfterWriteSeconds, TimeUnit.SECONDS)
-                           .initialCapacity(cacheSize)
-                           .maximumSize(cacheSize)
-                           .build();
+        return Caffeine.newBuilder()
+                       .expireAfterWrite(expireAfterWriteSeconds, TimeUnit.SECONDS)
+                       .initialCapacity(cacheSize)
+                       .maximumSize(cacheSize)
+                       .build();
     }
 }

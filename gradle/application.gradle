@@ -53,6 +53,7 @@ project("application:configuration") {
 
 		compile ("com.h2database:h2")
 
+		compile ("com.github.ben-manes.caffeine:caffeine:${versions.caffeine}")
 		compile ("net.logstash.logback:logstash-logback-encoder:${log_versions.logstashLogback}")
 		compile ("org.codehaus.janino:janino:${log_versions.janino}")
 		compile ("org.apache.commons:commons-lang3:${versions.commonsLang}")
