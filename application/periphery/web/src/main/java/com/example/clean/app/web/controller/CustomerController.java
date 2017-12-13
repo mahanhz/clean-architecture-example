@@ -3,6 +3,7 @@ package com.example.clean.app.web.controller;
 import com.example.clean.app.adapter.web.CustomerAdapter;
 import com.example.clean.app.adapter.web.api.CustomerDTO;
 import com.example.clean.app.adapter.web.api.CustomersDTO;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/api/customers", produces = APPLICATION_JSON_V1_VALUE)
+@Timed
 public class CustomerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);

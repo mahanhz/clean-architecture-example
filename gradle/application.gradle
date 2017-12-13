@@ -48,7 +48,6 @@ project("application:configuration") {
 		compile project(':application:periphery:data')
 		compile project(':application:periphery:web')
 
-		compile ('org.springframework.boot:spring-boot-starter-actuator')
 		compile ('org.springframework.boot:spring-boot-starter-aop')
 		compile ('org.springframework.retry:spring-retry')
 
@@ -59,7 +58,7 @@ project("application:configuration") {
 		compile ("org.codehaus.janino:janino:${log_versions.janino}")
 		compile ("org.apache.commons:commons-lang3:${versions.commonsLang}")
 
-		testCompile app_tests.unit_test
+        testCompile app_tests.unit_test
 	}
 }
 
@@ -107,5 +106,8 @@ project("application:periphery:web") {
 		compile("org.springframework.boot:spring-boot-starter-hateoas")
 		compile("org.springframework.boot:spring-boot-starter-aop")
 		compile("org.springframework.data:spring-data-rest-hal-browser")
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+
+        compile ("io.micrometer:micrometer-registry-influx:${versions.micrometer}")
 	}
 }

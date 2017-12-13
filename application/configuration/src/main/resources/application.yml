@@ -1,11 +1,7 @@
-endpoints:
-  hypermedia:
-    enabled: true
-
 management:
-  context-path: /manage
-  security:
-    enabled: false
+  endpoints:
+    web:
+      expose: health, info, metrics
 
 security:
   ignored: /h2-console/**

@@ -1,0 +1,7 @@
+spring:
+  metrics:
+    export:
+      influx:
+        db: micrometer
+        enabled: true
+        uri: http://192.168.1.35:9017

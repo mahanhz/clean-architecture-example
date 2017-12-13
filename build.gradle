@@ -73,6 +73,7 @@ ext {
 		jackson: '2.9.3',
 		jug: '3.1.4',
 		immutables: '2.5.6',
+        micrometer: '1.0.0-rc.5',
 		nullableJsr305: '3.0.2',
 		springfoxSwagger2: '2.7.0'
 	]
