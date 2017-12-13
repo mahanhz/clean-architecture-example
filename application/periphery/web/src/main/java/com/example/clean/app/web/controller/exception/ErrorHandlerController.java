@@ -1,17 +1,15 @@
 package com.example.clean.app.web.controller.exception;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.hateoas.VndErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import static com.example.clean.app.web.controller.MediaTypes.APPLICATION_VND_ERROR_JSON_VALUE;
@@ -27,7 +25,7 @@ public class ErrorHandlerController implements ErrorController {
     private ErrorAttributes errorAttributes;
 
     @GetMapping(value = PATH, produces = APPLICATION_VND_ERROR_JSON_VALUE)
-    public ResponseEntity<VndErrors> error(HttpServletRequest request) {
+    public ResponseEntity<VndErrors> error(WebRequest request) {
 
         final int errorStatus = getErrorStatus(request);
         final Map<String, String> errors = convertErrorAttributes(request);
@@ -40,20 +38,18 @@ public class ErrorHandlerController implements ErrorController {
         return PATH;
     }
 
-    private Map<String, Object> errorAttributes(final HttpServletRequest request) {
-        final RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-
-        return errorAttributes.getErrorAttributes(requestAttributes, false);
+    private Map<String, Object> errorAttributes(final WebRequest request) {
+        return errorAttributes.getErrorAttributes(request, false);
     }
 
-    private Map<String, String> convertErrorAttributes(final HttpServletRequest request) {
+    private Map<String, String> convertErrorAttributes(final WebRequest request) {
         return errorAttributes(request).entrySet().stream()
                                        .collect(toMap(Map.Entry::getKey,
                                                       entry -> entry.getValue().toString()));
     }
 
-    private int getErrorStatus(final HttpServletRequest request) {
-        final Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+    private int getErrorStatus(final WebRequest request) {
+        final Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code", 0);
         return statusCode != null ? statusCode : HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 }

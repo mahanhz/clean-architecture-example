@@ -8,12 +8,14 @@ project("application") {
 	}
 
 	springBoot {
-		mainClass = 'com.example.clean.app.MainApplication'
+		mainClassName = 'com.example.clean.app.MainApplication'
 
 		buildInfo {
-			additionalProperties = [
-					'description': "${description}"
-			]
+			properties {
+				additional = [
+                        'description': "${description}"
+				]
+			}
 		}
 	}
 
@@ -47,7 +49,6 @@ project("application:configuration") {
 		compile project(':application:periphery:web')
 
 		compile ('org.springframework.boot:spring-boot-starter-actuator')
-		compile ('org.springframework.boot:spring-boot-actuator-docs')
 		compile ('org.springframework.boot:spring-boot-starter-aop')
 		compile ('org.springframework.retry:spring-retry')
 
@@ -87,7 +88,6 @@ project("application:periphery:data") {
 
 		compile("org.springframework.boot:spring-boot-starter-data-jpa")
 		compile('org.springframework.boot:spring-boot-starter-actuator')
-		compile('org.springframework.boot:spring-boot-actuator-docs')
 		compile("org.apache.commons:commons-lang3:${versions.commonsLang}")
 
 		testCompile app_tests.unit_test

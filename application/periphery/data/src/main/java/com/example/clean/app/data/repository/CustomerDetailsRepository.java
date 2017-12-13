@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -32,13 +33,10 @@ public class CustomerDetailsRepository implements CustomerRepository {
 
     @Override
     public Customer customer(final Customer.Id customerId) {
-        final CustomerEntity cust = customerJpaRepository.findOne(customerId.getId());
+        final Optional<CustomerEntity> cust = customerJpaRepository.findById(customerId.getId());
 
-        if (cust == null) {
-            throw new NoSuchElementException("Customer '" + customerId.getId() + "' does not exist");
-        }
-
-        return customer(cust);
+        return cust.map(this::customer)
+                   .orElseThrow(() -> new NoSuchElementException("Customer '" + customerId.getId() + "' does not exist"));
     }
 
     private Customer customer(final CustomerEntity customer) {

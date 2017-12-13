@@ -16,7 +16,7 @@ server:
       enabled: false
   port: 13001
   session:
-    timeout: 600 # 10 minutes
+    timeout: "600" # 10 minutes
 
 spring:
   application:

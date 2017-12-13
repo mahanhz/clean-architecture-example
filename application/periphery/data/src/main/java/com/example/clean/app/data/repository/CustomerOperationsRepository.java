@@ -28,7 +28,7 @@ public class CustomerOperationsRepository implements CustomerEditRepository {
 
     @Override
     public void delete(final Customer.Id customerId) {
-        customerJpaRepository.delete(customerId.getId());
+        customerJpaRepository.deleteById(customerId.getId());
     }
 
     private CustomerEntity customerEntity(final Customer customer) {
