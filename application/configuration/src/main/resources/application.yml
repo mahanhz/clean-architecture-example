@@ -23,3 +23,7 @@ spring:
     generate-ddl: true
     properties:
       hibernate.jdbc.time_zone: UTC
+  metrics:
+    export:
+      influx:
+        enabled: false

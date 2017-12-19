@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.clean.app.data.helper.JpaRepositoryHelper.customerEntity;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +47,7 @@ public class CustomerDetailsRepositoryTest {
 
     @Test
     public void shouldGetCustomer() throws Exception {
-        given(customerJpaRepository.findOne(any(Long.class))).willReturn(customerEntity());
+        given(customerJpaRepository.findById(any(Long.class))).willReturn(Optional.of(customerEntity()));
 
         final Customer customer = customerDetailsRepository.customer(Customer.Id.of(123L));
 

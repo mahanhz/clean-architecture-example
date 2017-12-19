@@ -43,6 +43,6 @@ public class CustomerOperationsRepositoryTest {
     public void shouldDeleteCustomer() throws Exception {
         customerOperationsRepository.delete(customer().getId());
 
-        verify(customerJpaRepository, times(1)).delete(customer().getId().getId());
+        verify(customerJpaRepository, times(1)).deleteById(customer().getId().getId());
     }
 }

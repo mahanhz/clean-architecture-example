@@ -8,3 +8,5 @@ application/configuration/out/
 application/core/out/
 application/periphery/data/out/
 application/periphery/web/out/
+*.class
+test/integration-test/out/

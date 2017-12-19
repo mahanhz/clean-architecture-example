@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -18,10 +20,10 @@ public class CustomerJpaRepositoryTest {
 
     @Test
     public void shouldGetCustomer() throws Exception {
-        final CustomerEntity entity = customerJpaRepository.findOne(1L);
+        final Optional<CustomerEntity> entity = customerJpaRepository.findById(1L);
 
-        assertThat(entity).isNotNull();
-        assertThat(entity.getName().getFirstName()).isEqualTo("John");
-        assertThat(entity.getName().getLastName()).isEqualTo("Doe");
+        assertThat(entity).isPresent();
+        assertThat(entity.get().getName().getFirstName()).isEqualTo("John");
+        assertThat(entity.get().getName().getLastName()).isEqualTo("Doe");
     }
 }
