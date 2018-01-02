@@ -1,0 +1,43 @@
+def moduleNames = ['com.example.clean.app.adapter',
+				   'com.example.clean.app.configuration',
+				   'com.example.clean.app.core',
+				   'com.example.clean.app.periphery.data',
+				   'com.example.clean.app.periphery.web']
+
+moduleNames.each {
+    compileJava {
+        inputs.property("moduleName", it)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+            ]
+            classpath = files()
+        }
+    }
+
+    compileTestJava {
+        inputs.property("moduleName", it)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+                    '--add-modules', 'junit',
+                    '--add-reads', "$it=junit",
+                    '--patch-module', "$it=" + files(sourceSets.test.java.srcDirs).asPath,
+            ]
+            classpath = files()
+        }
+    }
+
+    test {
+        inputs.property("moduleName", it)
+        doFirst {
+            jvmArgs = [
+                    '--module-path', classpath.asPath,
+                    '--add-modules', 'ALL-MODULE-PATH',
+                    '--add-reads', "$it=junit",
+                    '--patch-module', "$it=" + files(sourceSets.test.java.outputDir).asPath,
+            ]
+            classpath = files()
+        }
+    }
+}

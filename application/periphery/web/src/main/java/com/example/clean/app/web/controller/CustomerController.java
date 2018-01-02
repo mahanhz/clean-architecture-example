@@ -44,7 +44,6 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<Resource<CustomersDTO>> customers() {
-
         final ControllerLinkBuilder selfLink = linkTo(methodOn(CustomerController.class).customers());
 
         final ControllerLinkBuilder createLink = linkTo(CustomerController.class);

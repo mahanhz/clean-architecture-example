@@ -79,15 +79,13 @@ project("application:core") {
 project("application:periphery:data") {
 	description = "Application periphery data"
 
-	// Need to override version to be 5.2.3 or greater so that we can use "hibernate.jdbc.time_zone: UTC"
-	ext['hibernate.version'] = '5.2.9.Final'
-
 	dependencies {
 		compile project(':application:core')
 
 		compile("org.springframework.boot:spring-boot-starter-data-jpa")
 		compile('org.springframework.boot:spring-boot-starter-actuator')
 		compile("org.apache.commons:commons-lang3:${versions.commonsLang}")
+		compile("javax.xml.bind:jaxb-api:${versions.jaxb}")
 
 		testCompile app_tests.unit_test
 	}
