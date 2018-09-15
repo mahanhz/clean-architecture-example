@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+        "-//Puppy Crawl//DTD Import Control 1.4//EN"
+        "http://checkstyle.sourceforge.net/dtds/import_control_1_4.dtd">
+
+<import-control pkg="com.example.clean.app">
+
+    <allow pkg=".*" regex="true"/>
+
+    <subpackage name="adapter">
+        <allow pkg=".*" regex="true"/>
+
+        <disallow pkg="com.example.clean.app.configuration"/>
+        <disallow pkg="com.example.clean.app.web"/>
+    </subpackage>
+
+    <subpackage name="configuration">
+        <allow pkg=".*" regex="true"/>
+    </subpackage>
+
+    <subpackage name="core">
+        <allow pkg=".*" regex="true"/>
+
+        <disallow pkg="com.example.clean.app.adapter"/>
+        <disallow pkg="com.example.clean.app.configuration"/>
+        <disallow pkg="com.example.clean.app.data"/>
+        <disallow pkg="com.example.clean.app.web"/>
+    </subpackage>
+
+    <subpackage name="data">
+        <allow pkg=".*" regex="true"/>
+
+        <disallow pkg="com.example.clean.app.configuration"/>
+    </subpackage>
+
+    <subpackage name="web">
+        <allow pkg=".*" regex="true"/>
+
+        <disallow pkg="com.example.clean.app.configuration"/>
+        <disallow pkg="com.example.clean.app.core"/>
+    </subpackage>
+
+</import-control>

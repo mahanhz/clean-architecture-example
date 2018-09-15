@@ -106,6 +106,6 @@ project("application:periphery:web") {
 		compile("org.springframework.data:spring-data-rest-hal-browser")
         compile('org.springframework.boot:spring-boot-starter-actuator')
 
-        compile ("io.micrometer:micrometer-registry-influx:${versions.micrometer}")
+		testCompile app_tests.unit_test
 	}
 }
